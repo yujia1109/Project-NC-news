@@ -17,6 +17,7 @@ describe('GET /api/topics', () => {
         .expect(200)
         .then(({body}) => {
             expect(Array.isArray(body)).toBe(true);
+            expect(body).toHaveLength(3)
         });
     });
     test('should return status 200 and treasure array with correct properties', () => {
@@ -42,6 +43,5 @@ describe('app.all', () => {
       .then(({body}) => {
         expect(body.msg).toBe('Route not found')
       })
-  
     });
   });
