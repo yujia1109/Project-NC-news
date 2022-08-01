@@ -19,5 +19,6 @@ _reaponds with all topics
 
 -each topic should have the following keys:
 
-  - slug
-  - description
+  - `slug`
+  - `description`
+
