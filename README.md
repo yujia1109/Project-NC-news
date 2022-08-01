@@ -21,3 +21,17 @@ _reaponds with all topics
 
   - slug
   - description
+
+### **GET** `/api/articles/:article_id`
+
+_responds with:
+
+- an article object, which should have the following properties:
+
+  - author which is the `username` from the users table
+  - title
+  - article_id
+  - body
+  - topic
+  - created_at
+  - votes
