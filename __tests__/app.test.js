@@ -70,14 +70,13 @@ describe('GET /api/articles/:article_id', () => {
     });
 });
 
-describe('PATCH /api/articles/:article_id', () => {
+describe.only('PATCH /api/articles/:article_id', () => {
     test('endpoint responds with status of 200 and request object with expected properties', () => {
-        const change = {
-           inc_votes: 50
-        };
         return request(app)
         .patch('/api/articles/1')
-        .send(change)
+        .send({
+            inc_votes: 50
+         })
         .expect(200)
         .then(({body}) => {
            expect(body.article).toEqual({
@@ -93,7 +92,10 @@ describe('PATCH /api/articles/:article_id', () => {
     });
     test('input invalid id', () => {
         return request(app)
-        .get('/api/articles/90')
+        .patch('/api/articles/900')
+        .send({
+            inc_votes: 50
+         })
         .expect(404)
         .then(({body}) => {
             expect(body.msg).toBe('Article not found')
@@ -101,7 +103,10 @@ describe('PATCH /api/articles/:article_id', () => {
     });
     test('should return status 400 when given invalid id', () => {
         return request(app)
-        .get('/api/articles/nonsense')
+        .patch('/api/articles/nonsense')
+        .send({
+            inc_votes: 50
+         })
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('Invalid input')
