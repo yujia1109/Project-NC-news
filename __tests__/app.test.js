@@ -112,7 +112,38 @@ describe.only('PATCH /api/articles/:article_id', () => {
             expect(body.msg).toBe('Invalid input')
         });
     });
-})
+    test('should return status 400 when client send an empty object', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid input')
+        });
+    });
+    test('should return status 400 when client send request object with wrong key', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({
+            banana: 50
+         })
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid input')
+        });
+    });
+    test('should return status 400 when client send request object with wrong value data type', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({
+            inc_votes: 'apple'
+         })
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid input')
+        });
+    });
+});
 
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {

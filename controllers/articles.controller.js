@@ -14,7 +14,6 @@ exports.patchArticalById = (req, res, next) => {
     const changes = req.body; 
     
     putArticleById(article_id, changes).then((article) => {
-        console.log(article)
         res.status(200).send({ article })
     })
     .catch(next);
