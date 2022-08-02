@@ -14,6 +14,7 @@ app.patch('/api/articles/:article_id', patchArticalById);
 
 app.get('/api/users', getUsers);
 
+
 app.all('/*', (req, res) => {
     res.status(400).send({ msg: 'Route not found'});
 });

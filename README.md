@@ -57,4 +57,8 @@ _responds with:
   - name
   - avatar_url
  
-  
+### **GET** `/api/articles/:article_id` (comment count) 
+
+_ an article response object should also now include:
+
+  - comment_count which is the total count of all the comments with this article_id
