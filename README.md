@@ -35,3 +35,14 @@ _responds with:
   - topic
   - created_at
   - votes
+
+### **PATCH** `/api/articles/:article_id`
+
+_request body accepts:
+
+- an object in the form `{ inc_votes: newVote }`
+  - newVotes will indicate how much the votes property in the database should be updated by
+
+_responds with:
+
+- the updated article
