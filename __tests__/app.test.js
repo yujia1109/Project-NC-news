@@ -70,7 +70,7 @@ describe('GET /api/articles/:article_id', () => {
     });
 });
 
-describe.only('PATCH /api/articles/:article_id', () => {
+describe('PATCH /api/articles/:article_id', () => {
     test('endpoint responds with status of 200 and request object with expected properties', () => {
         return request(app)
         .patch('/api/articles/1')
@@ -141,6 +141,34 @@ describe.only('PATCH /api/articles/:article_id', () => {
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('Invalid input')
+        });
+    });
+});
+
+describe('GET /api/users', () => {
+    test('should return an array', () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body)).toBe(true);
+            expect(body).toHaveLength(4)
+        });
+    });
+    test('should return status 200 and user array with correct properties', () => {
+        return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach((user) => {
+                return expect(user.hasOwnProperty('username')).toBe(true);
+            });
+            body.forEach((user) => {
+                return expect(user.hasOwnProperty('name')).toBe(true);
+            });
+            body.forEach((user) => {
+                return expect(user.hasOwnProperty('avatar_url')).toBe(true);
+            });
         });
     });
 });
