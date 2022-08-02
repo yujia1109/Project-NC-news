@@ -46,3 +46,15 @@ _request body accepts:
 _responds with:
 
 - the updated article
+
+### **GET** `/api/users`
+
+_responds with:
+
+- an array of objects, each object should have the following properties:
+
+  - username
+  - name
+  - avatar_url
+ 
+  
