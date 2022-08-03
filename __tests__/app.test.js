@@ -174,6 +174,37 @@ describe('GET /api/users', () => {
     });
 });
 
+describe('GET /api/articles', () => {
+    test('should return an array', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body)).toBe(true);
+            expect(body).toHaveLength(12)
+        });
+    });
+    test('should return status 200 and user array with correct properties', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('article_id') && article.hasOwnProperty('author') && article.hasOwnProperty('title') && article.hasOwnProperty('topic') && article.hasOwnProperty('created_at') && article.hasOwnProperty('votes') && article.hasOwnProperty('comment_count'))
+            });
+        });
+    });
+    test('status: 200 default sort by date in descending order', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toBeSortedBy('created_at', {descending: true})
+        });
+    });
+});
+    
+
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {
       return request(app)
