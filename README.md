@@ -19,8 +19,8 @@ _reaponds with all topics
 
 -each topic should have the following keys:
 
-  - slug
-  - description
+  - `slug`
+  - `description`
 
 ### **GET** `/api/articles/:article_id`
 
@@ -28,13 +28,13 @@ _responds with:
 
 - an article object, which should have the following properties:
 
-  - author which is the `username` from the users table
-  - title
-  - article_id
-  - body
-  - topic
-  - created_at
-  - votes
+  - `author` which is the `username` from the users table
+  - `title`
+  - `article_id`
+  - `body`
+  - `topic`
+  - `created_at`
+  - `votes`
 
 ### **PATCH** `/api/articles/:article_id`
 
@@ -53,12 +53,21 @@ _responds with:
 
 - an array of objects, each object should have the following properties:
 
-  - username
-  - name
-  - avatar_url
- 
-### **GET** `/api/articles/:article_id` (comment count) 
+  - `username`
+  - `name`
+  - `avatar_url`
 
-_ an article response object should also now include:
+### **GET** `/api/articles`
 
-  - comment_count which is the total count of all the comments with this article_id
+_responds with:
+
+- an articles array of article objects, each of which should have the following properties:
+  - `author` which is the `username` from the users table
+  - `title`
+  - `article_id`
+  - `topic`
+  - `created_at`
+  - `votes`
+  - `comment_count` 
+
+- the articles should be sorted by date in descending order.

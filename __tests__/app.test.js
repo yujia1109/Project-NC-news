@@ -174,6 +174,55 @@ describe('GET /api/users', () => {
     });
 });
 
+describe('GET /api/articles', () => {
+    test('should return an array', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body)).toBe(true);
+            expect(body).toHaveLength(12)
+        });
+    });
+    test('should return status 200 and user array with correct properties', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('article_id')).toBe(true);
+            });
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('author')).toBe(true);
+            });
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('title')).toBe(true);
+            });
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('topic')).toBe(true);
+            }); 
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('created_at')).toBe(true);
+            });
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('votes')).toBe(true);
+            });
+            body.forEach((article) => {
+                return expect(article.hasOwnProperty('comment_count')).toBe(true);
+            });
+        });
+    });
+    test('status: 200 default sort by date in descending order', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toBeSortedBy('created_at', {descending: true})
+        });
+    });
+});
+    
+
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {
       return request(app)
