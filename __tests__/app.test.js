@@ -203,7 +203,52 @@ describe('GET /api/articles', () => {
         });
     });
 });
-    
+
+describe('GET /api/articles/:article_id/comments', () => {
+    test('should return an array', () => {
+        return request(app)
+        .get('/api/articles/3/comments')
+        .expect(200)
+        .then(({body}) => {
+            expect(Array.isArray(body)).toBe(true);
+            expect(body).toHaveLength(2)
+        });
+    });
+    test('endpoint responds with status of 200 and request object with expected properties', () => {
+        return request(app)
+        .get('/api/articles/3/comments')
+        .expect(200)
+        .then(({body}) => {
+            body.forEach((comment) => {
+                return expect(comment.hasOwnProperty('comment_id') && comment.hasOwnProperty('votes') && comment.hasOwnProperty('created_at') && comment.hasOwnProperty('author') && comment.hasOwnProperty('body'))
+            });
+        });
+    });
+    test('should return status 404 when input invalid id', () => {
+        return request(app)
+        .get('/api/articles/90/comments')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('Comments of this article not found')
+        });
+    });
+    test('should return status 404 when return an empty comments', () => {
+        return request(app)
+        .get('/api/articles/8/comments')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('Comments of this article not found')
+        });
+    });
+    test('should return status 400 when given invalid id', () => {
+        return request(app)
+        .get('/api/articles/nonsense/comments')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).toBe('Invalid input')
+        });
+    });
+});
 
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {

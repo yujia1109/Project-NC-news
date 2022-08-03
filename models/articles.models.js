@@ -40,3 +40,17 @@ exports.selectArticles = async () => {
   const { rows: articles } = await db.query('SELECT articles.*, COUNT(comments.comment_id) AS comment_count FROM comments RIGHT JOIN articles ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY created_at desc;');
       return articles;
   };
+
+exports.selectCommentsByArticleId = (article_id) => {
+  return db
+    .query("SELECT comment_id, comments.votes, comments.created_at, comments.author, comments.body  FROM comments LEFT JOIN articles ON articles.article_id = comments.article_id WHERE articles.article_id = $1;", [article_id])
+    .then(({rows}) => {
+      if(!rows.length) {
+        return Promise.reject({
+            status: 404,
+            msg: 'Comments of this article not found'
+        });
+    }
+    return rows;    
+    });
+};

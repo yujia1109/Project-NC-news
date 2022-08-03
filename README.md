@@ -71,3 +71,14 @@ _responds with:
   - `comment_count` 
 
 - the articles should be sorted by date in descending order.
+
+### **GET** `/api/articles/:article_id/comments`
+
+_responds with:
+
+- an array of comments for the given `article_id` of which each comment should have the following properties:
+  - `comment_id`
+  - `votes`
+  - `created_at`
+  - `author` which is the `username` from the users table
+  - `body`
