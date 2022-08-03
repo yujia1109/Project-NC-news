@@ -54,3 +54,16 @@ exports.selectCommentsByArticleId = (article_id) => {
     return rows;    
     });
 };
+
+exports.insertCommentByArticleId = (article_id, username, body) => {
+  return db
+  .query("INSERT INTO comments (body, article_id, author) VALUES ($1, $2, $3) RETURNING *;", [body, article_id, username])
+  .then(({rows: [comment]}) => {
+    if(Object.keys(comment).length === 0) {
+      return Promise.reject({
+            status: 400,
+            msg: 'Invalid input'
+    });
+  };
+  return comment;
+})}

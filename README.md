@@ -82,3 +82,15 @@ _responds with:
   - `created_at`
   - `author` which is the `username` from the users table
   - `body`
+
+### **POST** `/api/articles/:article_id/comments`
+
+_request body accepts:
+
+- an object with the following properties:
+  - `username`
+  - `body`
+  
+_responds with:
+
+- the posted comment
