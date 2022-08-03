@@ -242,7 +242,7 @@ describe('GET /api/articles/:article_id/comments', () => {
     });
     test('should return status 400 when given invalid id', () => {
         return request(app)
-        .get('/api/articles/nonsense')
+        .get('/api/articles/nonsense/comments')
         .expect(400)
         .then(({body}) => {
             expect(body.msg).toBe('Invalid input')
