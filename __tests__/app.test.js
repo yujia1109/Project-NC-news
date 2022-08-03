@@ -190,25 +190,7 @@ describe('GET /api/articles', () => {
         .expect(200)
         .then(({body}) => {
             body.forEach((article) => {
-                return expect(article.hasOwnProperty('article_id')).toBe(true);
-            });
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('author')).toBe(true);
-            });
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('title')).toBe(true);
-            });
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('topic')).toBe(true);
-            }); 
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('created_at')).toBe(true);
-            });
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('votes')).toBe(true);
-            });
-            body.forEach((article) => {
-                return expect(article.hasOwnProperty('comment_count')).toBe(true);
+                return expect(article.hasOwnProperty('article_id') && article.hasOwnProperty('author') && article.hasOwnProperty('title') && article.hasOwnProperty('topic') && article.hasOwnProperty('created_at') && article.hasOwnProperty('votes') && article.hasOwnProperty('comment_count'))
             });
         });
     });
