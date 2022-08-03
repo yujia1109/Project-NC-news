@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 const { getTopics } = require('./controllers/topics.controllers');
-const { getArticleById, patchArticalById, getArticles } = require('./controllers/articles.controller');
+const { getArticleById, patchArticalById, getArticles, getCommentsByArticleId } = require('./controllers/articles.controller');
 const { getUsers } = require('./controllers/users.controllers');
 
 
@@ -15,6 +15,9 @@ app.patch('/api/articles/:article_id', patchArticalById);
 app.get('/api/users', getUsers);
 
 app.get('/api/articles', getArticles);
+
+app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
+
 
 app.all('/*', (req, res) => {
     res.status(400).send({ msg: 'Route not found'});
