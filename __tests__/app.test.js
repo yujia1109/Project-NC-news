@@ -440,6 +440,30 @@ describe('GET /api/articles?topic=', () => {
     });
 });
 
+describe('DELETE /api/comments/:comment_id', () => {
+    test('endpoint responds with status 204', () => {
+        return request(app)
+        .delete('/api/comments/1')
+        .expect(204);
+    });
+    test('status: 404 for valid but non-existent id', () => {
+        return request(app)
+        .delete('/api/comments/1234')
+        .expect(404)
+        .then(({body}) => {
+          expect(body.msg).toBe('Comment not found')
+        });
+      });
+    test('status: 400 responds with bad request for invalid id', () => {
+        return request(app)
+        .delete('/api/comments/nonsense')
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe('Invalid input')
+        });
+      });
+});
+
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {
       return request(app)

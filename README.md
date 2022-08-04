@@ -103,3 +103,13 @@ The end point should also accept the following queries:
 - `sort_by`, which sorts the articles by any valid column (defaults to date)
 - `order`, which can be set to `asc` or `desc` for ascending or descending (defaults to descending)
 - `topic`, which filters the articles by the topic value specified in the query
+
+### **DELETE** `/api/comments/:comment_id`
+
+_should:
+
+- delete the given comment by `comment_id`
+
+_responds with:
+
+- status 204 and no content
