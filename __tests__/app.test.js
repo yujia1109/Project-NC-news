@@ -53,7 +53,7 @@ describe('GET /api/articles/:article_id', () => {
            })
         });
     });
-    test('input invalid id', () => {
+    test('should return status 404 given valid but non-existent id', () => {
         return request(app)
         .get('/api/articles/90')
         .expect(404)
@@ -61,7 +61,7 @@ describe('GET /api/articles/:article_id', () => {
             expect(body.msg).toBe('Article not found')
         });
     });
-    test('should return status 400 when given invalid id', () => {
+    test('should return status 400 given invalid id', () => {
         return request(app)
         .get('/api/articles/nonsense')
         .expect(400)
@@ -91,7 +91,7 @@ describe('PATCH /api/articles/:article_id', () => {
            })
         });
     });
-    test('input invalid id', () => {
+    test('should return status 404 given valid but non-existent id', () => {
         return request(app)
         .patch('/api/articles/900')
         .send({
@@ -102,7 +102,7 @@ describe('PATCH /api/articles/:article_id', () => {
             expect(body.msg).toBe('Article not found')
         });
     });
-    test('should return status 400 when given invalid id', () => {
+    test('should return status 400 given invalid id', () => {
         return request(app)
         .patch('/api/articles/nonsense')
         .send({
@@ -220,11 +220,15 @@ describe('GET /api/articles/:article_id/comments', () => {
         .expect(200)
         .then(({body}) => {
             body.forEach((comment) => {
-                return expect(comment.hasOwnProperty('comment_id') && comment.hasOwnProperty('votes') && comment.hasOwnProperty('created_at') && comment.hasOwnProperty('author') && comment.hasOwnProperty('body'))
+                expect(comment.comment_id).toEqual(expect.any(Number));
+                expect(comment.votes).toEqual(expect.any(Number));
+                expect(comment.author).toEqual(expect.any(String));
+                expect(comment.created_at).toEqual(expect.any(String));
+                expect(comment.body).toEqual(expect.any(String));
             });
         });
     });
-    test('should return status 404 when input invalid id', () => {
+    test('should return status 404 given valid but non-existent id', () => {
         return request(app)
         .get('/api/articles/90/comments')
         .expect(404)
@@ -232,7 +236,7 @@ describe('GET /api/articles/:article_id/comments', () => {
             expect(body.msg).toBe('Comments of this article not found')
         });
     });
-    test('should return status 404 when return an empty comments', () => {
+    test('should return status 404 return an empty comments', () => {
         return request(app)
         .get('/api/articles/8/comments')
         .expect(404)
@@ -240,7 +244,7 @@ describe('GET /api/articles/:article_id/comments', () => {
             expect(body.msg).toBe('Comments of this article not found')
         });
     });
-    test('should return status 400 when given invalid id', () => {
+    test('should return status 400 given invalid id', () => {
         return request(app)
         .get('/api/articles/nonsense/comments')
         .expect(400)
@@ -249,6 +253,83 @@ describe('GET /api/articles/:article_id/comments', () => {
         });
     });
 });
+
+describe('POST /api/articles/:article_id/comments', () =>{
+    test('response with 201 and posted comments', () => {
+        return request(app)
+        .post('/api/articles/3/comments')
+        .send({
+            username: 'rogersop',
+            body: "It's so funny"
+        })
+        .expect(201)
+        .then(({body: {comment}}) => {
+            expect(comment.comment_id).toBe(19);
+            expect(comment.body).toBe("It's so funny");
+            expect(comment.article_id).toBe(3);
+            expect(comment.author).toBe('rogersop');
+            expect(comment.votes).toEqual(expect.any(Number));
+            expect(comment.created_at).toEqual(expect.any(String));   
+        });           
+    });
+    test('should return status 404 given valid but non-existent id', () => {
+        return request(app)
+        .post('/api/articles/900/comments')
+        .send({
+            username: 'rogersop',
+            body: "It's so funny"
+        })
+        .expect(404)
+        .then(({body}) => {
+                expect(body.msg).toBe('Article not exist')
+        });
+    });
+    test('should return status 400 input invalid id', () => {
+        return request(app)
+        .post('/api/articles/nonsense/comments')
+        .send({
+            username: 'rogersop',
+            body: "It's so funny"
+        })
+        .expect(400)
+        .then(({body}) => {
+                expect(body.msg).toBe("Invalid input")
+        });
+    });
+    test('should return status 400 post empty object', () => {
+        return request(app)
+        .post('/api/articles/nonsense/comments')
+        .send({})
+        .expect(400)
+        .then(({body}) => {
+                expect(body.msg).toBe("Invalid input")
+        });
+    });
+    test('should return status 400 post invalid body', () => {
+        return request(app)
+        .post('/api/articles/nonsense/comments')
+        .send({
+            username: 'rogersop',
+            body: 888888
+        })
+        .expect(400)
+        .then(({body}) => {
+                expect(body.msg).toBe("Invalid input")
+        });
+    }); 
+    test('should return status 400 post invalid username', () => {
+        return request(app)
+        .post('/api/articles/nonsense/comments')
+        .send({
+            username: 'banana',
+            body: "It's so funny"
+        })
+        .expect(400)
+        .then(({body}) => {
+                expect(body.msg).toBe("Invalid input")
+        });
+    });               
+    });
 
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {
