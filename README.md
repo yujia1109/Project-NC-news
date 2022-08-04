@@ -113,3 +113,10 @@ _should:
 _responds with:
 
 - status 204 and no content
+
+### **GET** `/api`
+
+_responds with:
+
+- JSON describing all the available endpoints on your API, see the `endpoints.json` for an  example that you could build on
+
