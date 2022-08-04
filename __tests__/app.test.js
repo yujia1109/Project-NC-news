@@ -3,6 +3,7 @@ const app = require('../app');
 const seed = require('../db/seeds/seed');
 const data = require('../db/data/test-data');
 const request = require('supertest');
+const { get } = require('../app');
 
 afterAll(() => db.end());
 
@@ -330,6 +331,114 @@ describe('POST /api/articles/:article_id/comments', () =>{
         });
     });               
     });
+
+describe('GET /api/articles?sort_by=', () => {
+    test('status: 200 accepts sort_by title', () => {
+        return request(app)
+        .get('/api/articles?sort_by=title')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body).toBeSortedBy('title', {descending: true})
+        });
+    });
+    test('status: 200 accepts sort_by article_id', () => {
+        return request(app)
+        .get('/api/articles?sort_by=article_id')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body).toBeSortedBy('article_id', {descending: true})
+        });
+    });
+    test('status: 200 accepts sort_by topic', () => {
+        return request(app)
+        .get('/api/articles?sort_by=topic')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body).toBeSortedBy('topic', {descending: true})
+        });
+    });
+    test('status: 200 accepts sort_by votes', () => {
+        return request(app)
+        .get('/api/articles?sort_by=votes')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body).toBeSortedBy('votes', {descending: true})
+        });
+    });
+    test('status: 200 default sort by date in descending order', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(body).toBeSortedBy('created_at', {descending: true})
+        });
+    });
+    test('status: 400 responds with bad request for invalid sort_by query', () => {
+        return request(app)
+        .get('/api/articles?sort_by=nonsense')
+        .expect(400)
+        .then(({ body: {msg} }) => {
+            expect(msg).toBe('Bad request');
+        });
+    });
+});
+
+describe('GET /api/articles?order=' , () => {
+    test('ststus: 200 accepts order data by desc', () => {
+        return request(app)
+        .get('/api/articles?order=desc')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body[0].article_id).toBe(3)
+            expect(body[body.length - 1].article_id).toBe(7)
+        });
+    });
+    test('ststus: 200 accepts order data by asc', () => {
+        return request(app)
+        .get('/api/articles?order=asc')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body[0].article_id).toBe(7)
+            expect(body[body.length - 1].article_id).toBe(3)
+        });
+    });
+    test('ststus: 200 default order is descending', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({ body }) => {
+            expect(body[0].article_id).toBe(3)
+            expect(body[body.length - 1].article_id).toBe(7)
+        });
+    });
+    test('status: 400 responds with bad request for invalid order query', () => {
+        return request(app)
+        .get('/api/articles?order=nonsense')
+        .expect(400)
+        .then(({body}) => {
+          expect(body.msg).toBe('Bad request')
+        });
+      });
+});
+
+describe('GET /api/articles?topic=', () => {
+    test('status: 200 accepts topic query which filter the data', () => {
+        return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then(({body}) => {
+            expect(body.length).toBe(1);
+        })
+    });
+    test('should return status 404 given valid but topic', () => {
+        return request(app)
+        .get("/api/articles?topic=banana")
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).toBe('Article not found')
+        });
+    });
+});
 
 describe('app.all', () => {
     test('should return status 400 when given wrong endpoint', () => {
