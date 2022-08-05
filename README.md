@@ -118,5 +118,5 @@ _responds with:
 
 _responds with:
 
-- JSON describing all the available endpoints on your API, see the `endpoints.json` for an  example that you could build on
+- JSON describing all the available endpoints on your API
 
