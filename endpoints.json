@@ -23,5 +23,72 @@
         }
       ]
     }
-  }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an object of article for the given article_id",
+    "queries": [],
+    "exampleResponse": {
+      "article":
+        {
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 100,
+          "comment_count": "11"
+        }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of comments for the given article_id",
+    "queries": [],
+    "exampleResponse": {
+      "articles": [
+        {
+          "votes": 0,
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341
+        }]
+      }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [{ 
+        "username": "icellusedkars", "name": "sam", "avatar_url": "https://avatars2.githubusercontent.com/u/24604688?s=460&v=4" }]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "patch article for the given article_id serve an object of updated article",
+    "exampleResponse": {
+      "article":
+        {
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 100,
+          "comment_count": "11"
+        }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "delete comment by comment_id"
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "post comments for the given article_id serve the posted comment",
+    "exampleResponse": {"comment": {
+      "body": "It's so funny",
+      "article_id": 3,
+      "author": "rogersop",
+      "votes": 0,
+      "created_at": 1527695953341
+    }
+    }
+  } 
 }
+

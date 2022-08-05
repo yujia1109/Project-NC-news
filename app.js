@@ -5,7 +5,10 @@ const { getTopics } = require('./controllers/topics.controllers');
 const { getArticleById, patchArticalById, getArticles, getCommentsByArticleId, postCommentByArticleId } = require('./controllers/articles.controller');
 const { getUsers } = require('./controllers/users.controllers');
 const { deleteCommentById } = require('./controllers/comments.controllers')
+const { getEndpoints } = require('./controllers/endpoints.controller');
 
+
+app.get('/api/', getEndpoints);
 
 app.get('/api/topics', getTopics);
 

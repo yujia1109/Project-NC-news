@@ -11,6 +11,20 @@ beforeEach(() => {
     return seed(data);
 });
 
+
+describe('GET /api/', () => {
+    test('should return status 200 and serve a json object', () => {
+        return request(app)
+        .get('/api')
+        .expect(200)
+        .then(({body}) => {
+            expect(typeof body).toBe('object');
+            expect(body !== null).toBe(true);
+            expect(!Array.isArray(body)).toBe(true);
+        });
+    });
+});
+
 describe('GET /api/topics', () => {
     test('should return an array', () => {
         return request(app)
