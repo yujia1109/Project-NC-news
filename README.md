@@ -1,122 +1,67 @@
-# Northcoders News API
+# Yujia-News API
+
+## Server on heroku
+
+Hosted version link (https://yujia-news.herokuapp.com/api)
+
 
 ## Background
 
-We will be building an API for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
+This project is building an API for the purpose of accessing application data programmatically. The intention here is to mimic the building of a real world backend service which should provide this information to the front end architecture.
 
-Your database will be PSQL, and you will interact with it using [node-postgres](https://node-postgres.com/).
-
-## .env files
-
-In order to connect to the two databases locally, two .env files: `.env.test` and `.env.development` must be created first. Into each, add `PGDATABASE=<database_name_here>`, with the correct database name for that environment (see `/db/setup.sql` for the database names). Double check that these .env files are .gitignored.
+The endpoints.json file describes all the available endpoints on this API.
 
 
-### **GET** `/api/topics`
+## Installation
 
-Create an endpoint to allow client to view all the topics currently available.
+The database for this project is PSQL, and can be interacted with it using [node-postgres](https://node-postgres.com/).
 
-_reaponds with all topics
+### Technology
 
--each topic should have the following keys:
+- Node.js (v16.15.1) (https://nodejs.org/en/)
 
-  - `slug`
-  - `description`
+### DevDependencies and dependencues
 
-### **GET** `/api/articles/:article_id`
+The package.json file contains all the devDependencies and dependencies used in this project.
 
-_responds with:
+_DevDependencies
 
-- an article object, which should have the following properties:
+- husky (v7.0.0) (https://www.npmjs.com/package/husky)
+- jest (v27.5.1) (https://www.npmjs.com/package/jest)
+- jest-extended (v2.0.0) (https://www.npmjs.com/package/jest-extended)
+- jest-sorted (v1.0.14) (https://www.npmjs.com/package/jest-sorted)
+- pg-format (v1.0.4) (https://www.npmjs.com/package/pg-format)
+- supertest (v8.7.3) (https://www.npmjs.com/package/supertest)
 
-  - `author` which is the `username` from the users table
-  - `title`
-  - `article_id`
-  - `body`
-  - `topic`
-  - `created_at`
-  - `votes`
+_Dependencies
 
-### **PATCH** `/api/articles/:article_id`
+- body-parser (v1.20.0) (https://www.npmjs.com/package/body-parser)
+- dotenv (v16.0.0) (https://www.npmjs.com/package/dotenv)
+- express (v4.18.1) (https://expressjs.com)
+- pg (v8.7.3) (https://node-postgres.com)
 
-_request body accepts:
 
-- an object in the form `{ inc_votes: newVote }`
-  - newVotes will indicate how much the votes property in the database should be updated by
+## Database
 
-_responds with:
+### Database creating
 
-- the updated article
+- Run script "npm setup-dbs" to create the development and test databases.
 
-### **GET** `/api/users`
+### Database connecting
 
-_responds with:
+- In order to connect to the two databases locally, two .env files: `.env.test` and `.env.development` must be created first. Into each, add `PGDATABASE=<database_name_here>`, with the correct database name for that environment (see `/db/setup.sql` for the database names).Both of these .env files are .gitignored.
 
-- an array of objects, each object should have the following properties:
+### Database seeding
 
-  - `username`
-  - `name`
-  - `avatar_url`
+- Run script "npm seed" to populate the development database. 
+- The app.test.js file is populated with test database.
 
-### **GET** `/api/articles`
 
-_responds with:
+## Running the project
 
-- an articles array of article objects, each of which should have the following properties:
-  - `author` which is the `username` from the users table
-  - `title`
-  - `article_id`
-  - `topic`
-  - `created_at`
-  - `votes`
-  - `comment_count` 
+- Testing
 
-- the articles should be sorted by date in descending order.
+  All test files are held in `tests` folder, run with the script "npm test" for testing.
 
-### **GET** `/api/articles/:article_id/comments`
-
-_responds with:
-
-- an array of comments for the given `article_id` of which each comment should have the following properties:
-  - `comment_id`
-  - `votes`
-  - `created_at`
-  - `author` which is the `username` from the users table
-  - `body`
-
-### **POST** `/api/articles/:article_id/comments`
-
-_request body accepts:
-
-- an object with the following properties:
-  - `username`
-  - `body`
-  
-_responds with:
-
-- the posted comment
-
-### **GET** `/api/articles (queries)`
-
-**FEATURE REQUEST**
-The end point should also accept the following queries:
-
-- `sort_by`, which sorts the articles by any valid column (defaults to date)
-- `order`, which can be set to `asc` or `desc` for ascending or descending (defaults to descending)
-- `topic`, which filters the articles by the topic value specified in the query
-
-### **DELETE** `/api/comments/:comment_id`
-
-_should:
-
-- delete the given comment by `comment_id`
-
-_responds with:
-
-- status 204 and no content
-
-### **GET** `/api`
-
-_responds with:
-
-- JSON describing all the available endpoints on your API
-
+- Cloud hosting 
+  https://devcenter.heroku.com/start
