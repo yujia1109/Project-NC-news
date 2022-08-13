@@ -27,9 +27,9 @@ app.post('/api/articles/:article_id/comments', postCommentByArticleId);
 
 app.delete('/api/comments/:comment_id', deleteCommentById);
 
-app.all('/*', (req, res) => {
-    res.status(400).send({ msg: 'Route not found'});
-});
+// app.all('/*', (req, res) => {
+//     res.status(400).send({ msg: 'Route not found'});
+// });
 
 //////////////////////////
 
